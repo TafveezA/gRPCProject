@@ -1,25 +1,32 @@
-// package main
+package main
 
-// import (
-// 	"log"
+import (
+	"log"
 
-// 	"google.golang.org/grpc"
-// )
+	pb "github.com/TafveezA/gRPCProject/greet/proto"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+)
 
-// const (
-// 	port = ":8080"
-// )
+const (
+	port = ":8080"
+)
 
-// func main() {
-// 	conn, err := grpc.Dial("localhost"+port, grpc.WithTransportCredentials)
-// 	if err != nil {
-// 		log.Fatalf("did not connect: %v", err)
+func main() {
+	conn, err := grpc.Dial("localhost"+port, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("Did not connect: %v", err)
+	}
+	defer conn.Close()
 
-// 	}
-// 	defer conn.Close()
-// 	// client := pb.NewGreetServiceClient(conn)
-// 	// names:= &pb.NameList{
-// 	// 	Names: [] string {"tafveez","Afzal","Bob"}
-// 	// }
+	client := pb.NewGreetServiceClient(conn)
 
-// }
+	names := &pb.NamesList{
+		Names: []string{"Tafveez", "Alice", "Bob"},
+	}
+
+	// callSayHello(client)
+	// callSayHelloServerStream(client, names)
+	callSayHelloClientStream(client, names)
+	// callSayHelloBidirectionalStream(client, names)
+}
