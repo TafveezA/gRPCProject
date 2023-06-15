@@ -1,5 +1,5 @@
  # To remove error
- go mod init github.com/akhil/grpc-demo-yt
+ go mod init github.com/TafveezA/gRPCProject
  # To initialize 
  go mod tidy
 
